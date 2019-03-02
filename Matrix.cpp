@@ -252,7 +252,7 @@ int Matrix::displayMenu()
 			"8. Scale all rows so leading entries are 1" << endl <<
 			"9. Replace rows" << endl <<
 			"10. Generate a random n x m matrix" << endl <<
-			"11. Convert matrix to reduced echelon form (not implemented, invalid)" << endl <<
+			"11. Convert matrix to reduced echelon form (not fully implemented)" << endl <<
 			"12. Generate an n x n identity matrix" << endl;
 
 		if (!(cin >> menuOption))
@@ -313,7 +313,10 @@ int Matrix::displayMenu()
 				rowReduce();
 				printMatrix();
 			case 12://identity matrix
-
+				resetMatrix();
+				identityMatrix();
+				printMatrix();
+				break;
 			default:
 				cout << "I'm sorry that is not a valid choice." << endl;
 				menuOption = 0;
@@ -796,5 +799,25 @@ void Matrix::identityMatrix()
 	}
 
 	propagateRows();
+
+	for (int i = 0; i < getNumRows(); i++)
+	{
+		RowNode* rowSet = getMatrixPtr();
+		ColumnNode* colSet = nullptr;
+		
+		for (int j = 1; j <= i; j++)
+		{
+			rowSet = rowSet->getRowPtr();
+		}
+
+		colSet = rowSet->getColPtr();
+
+		for (int j = 1; j <= i; j++)
+		{
+			colSet = colSet->getColPtr();
+		}
+
+		colSet->setColVal(1);
+	}
 
 }
